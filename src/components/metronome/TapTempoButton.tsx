@@ -1,13 +1,11 @@
 import { useState, useRef } from 'react';
-import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { useMetronomeStore } from '../../store/metronomeStore';
 import { colors } from '../../theme/colors';
 import { typography } from '../../theme/typography';
-import { spacing } from '../../theme/spacing';
 
 export function TapTempoButton() {
   const tapTempo = useMetronomeStore(s => s.tapTempo);
-  const bpm = useMetronomeStore(s => s.bpm);
   const [flash, setFlash] = useState(false);
   const flashRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -24,13 +22,40 @@ export function TapTempoButton() {
       onPress={handleTap}
       activeOpacity={0.8}
     >
-      <Text style={styles.text}>Tap Tempo</Text>
+      <Text style={[styles.text, flash && styles.textFlash]}>TAP</Text>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  btn:      { width: 180, paddingVertical: spacing.md + 4, borderRadius: 30, borderWidth: 1, borderColor: colors.borderLight, backgroundColor: colors.surfaceHigh, alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.2, shadowRadius: 4, elevation: 2 },
-  btnFlash: { backgroundColor: colors.surfaceHigh, borderColor: colors.gold, shadowColor: colors.gold, shadowOpacity: 0.6, shadowRadius: 8 },
-  text:     { color: colors.textSecondary, fontSize: typography.md, fontWeight: '700', letterSpacing: 2, textTransform: 'uppercase' },
+  btn: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    borderWidth: 2,
+    borderColor: colors.borderLight,
+    backgroundColor: colors.surfaceCard,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  btnFlash: {
+    borderColor: colors.gold,
+    shadowColor: colors.gold,
+    shadowOpacity: 0.7,
+    shadowRadius: 10,
+  },
+  text: {
+    color: colors.textSecondary,
+    fontSize: 14,
+    fontWeight: '800',
+    letterSpacing: 2,
+  },
+  textFlash: {
+    color: colors.gold,
+  },
 });

@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
+import { StyleSheet } from 'react-native';
 import { Stack } from 'expo-router';
 import { Audio } from 'expo-av';
 import * as SplashScreen from 'expo-splash-screen';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { metronomeEngine } from '../src/engine/MetronomeEngine';
+import { colors } from '../src/theme/colors';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -34,5 +37,13 @@ export default function RootLayout() {
 
   if (!ready) return null;
 
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return (
+    <GestureHandlerRootView style={styles.root}>
+      <Stack screenOptions={{ headerShown: false }} />
+    </GestureHandlerRootView>
+  );
 }
+
+const styles = StyleSheet.create({
+  root: { flex: 1, backgroundColor: colors.background },
+});

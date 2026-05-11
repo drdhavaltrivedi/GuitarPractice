@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { ScrollView, View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams } from 'expo-router';
 import { useKeepAwake } from 'expo-keep-awake';
@@ -15,6 +15,7 @@ import { RampControl } from '../../src/components/metronome/RampControl';
 import { colors } from '../../src/theme/colors';
 import { typography } from '../../src/theme/typography';
 import { spacing } from '../../src/theme/spacing';
+import { SCROLL_BOTTOM_PAD, rs, rf } from '../../src/theme/responsive';
 
 export default function MetronomeScreen() {
   useKeepAwake();
@@ -41,76 +42,83 @@ export default function MetronomeScreen() {
 
   return (
     <SafeAreaView style={styles.safe}>
-      <ScrollView
-        style={styles.scroll}
-        contentContainerStyle={styles.content}
-        showsVerticalScrollIndicator={false}
-      >
-        {exerciseContext && (
-          <View style={styles.contextBar}>
-            <Text style={styles.contextText} numberOfLines={1}>
-              {exerciseContext.label}  ·  TARGET {exerciseContext.targetBpm} BPM
-            </Text>
-          </View>
-        )}
-
-        <View style={styles.topSection}>
-          <BeatIndicator
-            totalBeats={timeSignature}
-            currentBeat={currentBeat}
-            isPlaying={isPlaying}
-          />
+      {/* Context bar */}
+      {exerciseContext && (
+        <View style={styles.contextBar}>
+          <Text style={styles.contextText} numberOfLines={1}>
+            {exerciseContext.label}  ·  TARGET {exerciseContext.targetBpm} BPM
+          </Text>
         </View>
+      )}
 
-        <View style={styles.dialCard}>
-          <BpmDisplay bpm={bpm} onChangeBpm={setBpm} />
-          <BpmStepper bpm={bpm} onChangeBpm={setBpm} />
-        </View>
+      {/* Screen title */}
+      <Text style={styles.screenTitle}>METRONOME</Text>
 
-        <View style={styles.presetsWrapper}>
-          <PresetButtons currentBpm={bpm} onSelect={setBpm} />
-        </View>
+      {/* TAP + PLAY row — top corners of dial */}
+      <View style={styles.topRow}>
+        <TapTempoButton />
+        <BeatIndicator
+          totalBeats={timeSignature}
+          currentBeat={currentBeat}
+          isPlaying={isPlaying}
+        />
+        <PlayStopButton isPlaying={isPlaying} onPress={togglePlay} />
+      </View>
 
-        <View style={styles.controlsRow}>
-          <PlayStopButton isPlaying={isPlaying} onPress={togglePlay} />
-        </View>
+      {/* Central arc dial */}
+      <View style={styles.dialWrapper}>
+        <BpmDisplay bpm={bpm} onChangeBpm={setBpm} />
+      </View>
 
-        <View style={styles.tapRow}>
-          <TapTempoButton />
-        </View>
+      {/* -1 / +1 stepper */}
+      <BpmStepper bpm={bpm} onChangeBpm={setBpm} />
 
-        <View style={styles.settingsCard}>
-          <TimeSignature value={timeSignature} onChange={setTimeSignature} />
-          <View style={styles.divider} />
-          <RampControl />
-        </View>
+      {/* Time signature + ramp */}
+      <View style={styles.settingsRow}>
+        <TimeSignature value={timeSignature} onChange={setTimeSignature} />
+      </View>
 
-        <View style={styles.spacer} />
-      </ScrollView>
+      <View style={styles.rampSection}>
+        <RampControl />
+      </View>
+
+      {/* Preset pills — bottom */}
+      <View style={styles.presetWrapper}>
+        <Text style={styles.presetsLabel}>PRESETS</Text>
+        <PresetButtons currentBpm={bpm} onSelect={setBpm} />
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   safe:          { flex: 1, backgroundColor: colors.background },
-  scroll:        { flex: 1 },
-  content:       { alignItems: 'center', paddingHorizontal: spacing.lg, paddingTop: spacing.md, paddingBottom: spacing.xxl },
-  
-  contextBar:    { width: '100%', backgroundColor: colors.surfaceCard, borderRadius: 12, paddingVertical: spacing.md, paddingHorizontal: spacing.md, marginBottom: spacing.md, borderWidth: 1, borderColor: colors.gold },
-  contextText:   { color: colors.gold, fontSize: typography.sm, fontFamily: typography.heading, textAlign: 'center', letterSpacing: 1, fontWeight: '700' },
-  
-  topSection:    { width: '100%', alignItems: 'center', marginBottom: spacing.sm },
-  
-  dialCard:      { width: '100%', backgroundColor: colors.surfaceCard, borderRadius: 32, paddingVertical: spacing.xl, paddingHorizontal: spacing.lg, alignItems: 'center', borderWidth: 1, borderColor: colors.border, marginBottom: spacing.lg, elevation: 4, shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.2, shadowRadius: 8 },
-  
-  presetsWrapper:{ width: '100%', marginBottom: spacing.xl },
-  
-  controlsRow:   { width: '100%', alignItems: 'center', justifyContent: 'center', marginBottom: spacing.md },
-  
-  tapRow:        { width: '100%', alignItems: 'center', marginBottom: spacing.xl },
 
-  settingsCard:  { width: '100%', backgroundColor: colors.surfaceCard, borderRadius: 24, padding: spacing.xl, borderWidth: 1, borderColor: colors.border, marginBottom: spacing.lg },
-  divider:       { height: 1, backgroundColor: colors.borderLight, marginVertical: spacing.lg },
+  contextBar:    { marginHorizontal: spacing.lg, marginTop: spacing.sm, backgroundColor: colors.surfaceCard, borderRadius: 12, paddingVertical: spacing.sm, paddingHorizontal: spacing.md, borderWidth: 1, borderColor: colors.gold },
+  contextText:   { color: colors.gold, fontSize: rf(12), textAlign: 'center', letterSpacing: 1, fontWeight: '700' },
 
-  spacer:        { height: spacing.xxl },
+  screenTitle:   { color: colors.textSecondary, fontSize: rf(13), letterSpacing: 4, fontWeight: '800', textAlign: 'center', marginTop: rs(spacing.lg), marginBottom: rs(spacing.sm) },
+
+  topRow:        {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: rs(spacing.xl),
+    marginTop: rs(spacing.sm),
+  },
+
+  dialWrapper:   { alignItems: 'center', marginTop: rs(spacing.md) },
+
+  settingsRow:   { alignItems: 'center', marginTop: rs(spacing.md) },
+
+  rampSection:   { marginHorizontal: spacing.lg, marginTop: rs(spacing.sm) },
+
+  presetWrapper: {
+    marginTop: 'auto',
+    paddingTop: spacing.md,
+    paddingBottom: SCROLL_BOTTOM_PAD,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+  },
+  presetsLabel:  { color: colors.textMuted, fontSize: rf(10), letterSpacing: 2, fontWeight: '700', textAlign: 'center', marginBottom: 4 },
 });

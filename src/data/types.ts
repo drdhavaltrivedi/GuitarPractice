@@ -29,6 +29,7 @@ export interface RHExercise {
   startBpm: number;
   note: string;       // "Each string", "Alternate strings"
   videoUrl?: string;  // Link to a YouTube demo or GIF
+  description?: string; // Detailed tooltip instructions
 }
 
 export interface LHExercise {
@@ -48,6 +49,7 @@ export interface Alankar {
   targetBpm: number;
   startBpm: number;
   videoUrl?: string;
+  description?: string; // Detailed tooltip instructions
 }
 
 export interface PracticeEntry {

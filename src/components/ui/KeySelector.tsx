@@ -3,8 +3,7 @@ import { colors } from '../../theme/colors';
 import { typography } from '../../theme/typography';
 import { spacing } from '../../theme/spacing';
 
-const KEYS = ['C','G','D','A','E','B'] as const;
-const SHARPS: Record<string, number> = { C:0, G:1, D:2, A:3, E:4, B:5 };
+const ALL_KEYS = ['C', 'D', 'E', 'F', 'G', 'A', 'B'] as const;
 
 interface Props {
   selected: string;
@@ -13,18 +12,21 @@ interface Props {
 
 export function KeySelector({ selected, onSelect }: Props) {
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.row}>
-      {KEYS.map(k => {
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.row}
+    >
+      {ALL_KEYS.map(k => {
         const active = selected === k;
-        const sharps = SHARPS[k];
         return (
-          <TouchableOpacity key={k} style={[styles.btn, active && styles.btnActive]} onPress={() => onSelect(k)}>
+          <TouchableOpacity
+            key={k}
+            style={[styles.btn, active && styles.btnActive]}
+            onPress={() => onSelect(k)}
+            activeOpacity={0.8}
+          >
             <Text style={[styles.key, active && styles.keyActive]}>{k}</Text>
-            {sharps > 0 && (
-              <View style={styles.badge}>
-                <Text style={styles.badgeText}>{sharps}♯</Text>
-              </View>
-            )}
           </TouchableOpacity>
         );
       })}
@@ -33,12 +35,39 @@ export function KeySelector({ selected, onSelect }: Props) {
 }
 
 const styles = StyleSheet.create({
-  row:        { flexDirection: 'row', gap: spacing.md, paddingHorizontal: spacing.lg, paddingVertical: spacing.md },
-  btn:        { paddingHorizontal: spacing.xl, paddingVertical: spacing.md, borderRadius: 20, borderWidth: 1.5, borderColor: colors.border, backgroundColor: colors.surfaceCard, alignItems: 'center', minWidth: 64 },
-  btnActive:  { borderColor: colors.gold, backgroundColor: colors.surfaceHigh, elevation: 4 },
-  key:        { color: colors.textMuted, fontSize: 18, fontFamily: typography.heading, fontWeight: 'bold' },
-  keyActive:  { color: colors.gold },
-  badge:      { position: 'absolute', top: -6, right: -6, backgroundColor: colors.gold, borderRadius: 10, paddingHorizontal: 4, paddingVertical: 1, minWidth: 16, alignItems: 'center' },
-  badgeText:  { color: colors.background, fontSize: 9, fontWeight: 'bold' },
+  row: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    alignItems: 'center',
+  },
+  btn: {
+    width: 52,
+    height: 52,
+    borderRadius: 14,
+    borderWidth: 1.5,
+    borderColor: colors.border,
+    backgroundColor: colors.surfaceCard,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  btnActive: {
+    borderColor: colors.gold,
+    backgroundColor: colors.surfaceHigh,
+    shadowColor: colors.gold,
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 0 },
+    elevation: 5,
+  },
+  key: {
+    color: colors.textSecondary,
+    fontSize: 20,
+    fontFamily: typography.heading,
+    fontWeight: '700',
+  },
+  keyActive: {
+    color: colors.gold,
+  },
 });
-

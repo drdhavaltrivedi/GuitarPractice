@@ -1,9 +1,9 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { colors } from '../../theme/colors';
 import { typography } from '../../theme/typography';
 import { spacing } from '../../theme/spacing';
 
-const PRESETS = [80, 100, 120, 150, 180, 250] as const;
+const PRESETS = [60, 80, 100, 120, 140, 160] as const;
 
 interface Props {
   currentBpm: number;
@@ -12,7 +12,11 @@ interface Props {
 
 export function PresetButtons({ currentBpm, onSelect }: Props) {
   return (
-    <View style={styles.row}>
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.row}
+    >
       {PRESETS.map(bpm => {
         const active = currentBpm === bpm;
         return (
@@ -26,14 +30,23 @@ export function PresetButtons({ currentBpm, onSelect }: Props) {
           </TouchableOpacity>
         );
       })}
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  row:        { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, justifyContent: 'center', marginVertical: spacing.sm },
-  btn:        { paddingHorizontal: spacing.lg, paddingVertical: spacing.sm + 4, borderRadius: 24, borderWidth: 1, borderColor: colors.borderLight, backgroundColor: colors.surfaceCard },
-  btnActive:  { borderColor: colors.gold, backgroundColor: colors.goldDim + '22' },
-  text:       { color: colors.textSecondary, fontSize: typography.sm, fontWeight: '600' },
+  row:        { flexDirection: 'row', gap: spacing.sm, paddingHorizontal: spacing.lg, paddingVertical: spacing.md },
+  btn:        {
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm + 2,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.borderLight,
+    backgroundColor: colors.surfaceCard,
+    minWidth: 60,
+    alignItems: 'center',
+  },
+  btnActive:  { borderColor: colors.gold, backgroundColor: colors.surfaceHigh },
+  text:       { color: colors.textSecondary, fontSize: 15, fontWeight: '700' },
   textActive: { color: colors.gold, fontWeight: '800' },
 });

@@ -11,6 +11,7 @@ import { AlankaarCard } from '../../src/components/exercises/AlankaarCard';
 import { colors } from '../../src/theme/colors';
 import { typography } from '../../src/theme/typography';
 import { spacing } from '../../src/theme/spacing';
+import { SCROLL_BOTTOM_PAD } from '../../src/theme/responsive';
 
 type Tab = 'rh' | 'lh' | 'alankars';
 
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
   tabActive:        { borderBottomWidth:2, borderBottomColor:colors.gold },
   tabText:          { color:colors.textSecondary, fontSize:12 },
   tabTextActive:    { color:colors.gold },
-  content:          { padding:16 },
+  content:          { padding:16, paddingBottom: SCROLL_BOTTOM_PAD },
   stringRow:        { flexDirection:'row', gap:8, marginBottom:16 },
   strBtn:           { width:44, height:44, borderRadius:22, borderWidth:1.5, borderColor:colors.border, alignItems:'center', justifyContent:'center', backgroundColor:colors.surface },
   strBtnActive:     { borderColor:colors.gold, backgroundColor:colors.surfaceHigh },

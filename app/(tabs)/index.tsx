@@ -8,6 +8,7 @@ import { useProgressStore } from '../../src/store/progressStore';
 import { colors } from '../../src/theme/colors';
 import { typography } from '../../src/theme/typography';
 import { spacing } from '../../src/theme/spacing';
+import { SCROLL_BOTTOM_PAD } from '../../src/theme/responsive';
 
 const CHECKLIST = [
   { id:'rh',       label:'Right Hand Exercises',    route:'/exercises', icon: 'hand-right' },
@@ -214,7 +215,7 @@ export default function PracticeHome() {
 
 const styles = StyleSheet.create({
   safe:            { flex:1, backgroundColor:colors.background },
-  content:         { paddingHorizontal: spacing.lg, paddingBottom: spacing.xxl, paddingTop: spacing.md },
+  content:         { paddingHorizontal: spacing.lg, paddingBottom: SCROLL_BOTTOM_PAD, paddingTop: spacing.md },
   
   watermarkContainer:{ position: 'absolute', top: -30, right: -60, opacity: 0.3, transform: [{ rotate: '15deg' }], zIndex: -1 },
 

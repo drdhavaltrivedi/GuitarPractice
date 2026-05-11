@@ -18,7 +18,7 @@ interface Props {
 export function TimeSignature({ value, onChange }: Props) {
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Time Signature</Text>
+      <Text style={styles.label}>{value}/4 TIME</Text>
       <View style={styles.row}>
         {OPTIONS.map(opt => {
           const active = value === opt.value;
@@ -29,7 +29,7 @@ export function TimeSignature({ value, onChange }: Props) {
               onPress={() => onChange(opt.value)}
               activeOpacity={0.7}
             >
-              <Text style={[styles.label, active && styles.labelActive]}>{opt.label}</Text>
+              <Text style={[styles.text, active && styles.textActive]}>{opt.label}</Text>
             </TouchableOpacity>
           );
         })}
@@ -39,11 +39,18 @@ export function TimeSignature({ value, onChange }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container:   { marginVertical: spacing.md, alignItems: 'center' },
-  heading:     { color: colors.textSecondary, fontSize: typography.sm, marginBottom: spacing.sm, letterSpacing: 1 },
-  row:         { flexDirection: 'row', gap: spacing.sm },
-  btn:         { paddingHorizontal: spacing.lg, paddingVertical: spacing.sm + 2, borderRadius: 8, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surface },
-  btnActive:   { borderColor: colors.gold, backgroundColor: colors.surfaceHigh },
-  label:       { color: colors.textSecondary, fontSize: typography.md, fontFamily: typography.mono },
-  labelActive: { color: colors.gold },
+  container:  { alignItems: 'center', marginTop: spacing.lg },
+  label:      { color: colors.textSecondary, fontSize: 12, letterSpacing: 2, fontWeight: '700', marginBottom: spacing.sm },
+  row:        { flexDirection: 'row', gap: spacing.sm },
+  btn:        {
+    paddingHorizontal: spacing.md,
+    paddingVertical: 6,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.surface,
+  },
+  btnActive:  { borderColor: colors.gold, backgroundColor: colors.surfaceHigh },
+  text:       { color: colors.textSecondary, fontSize: 13, fontFamily: typography.mono },
+  textActive: { color: colors.gold, fontWeight: '700' },
 });
