@@ -93,19 +93,73 @@ erDiagram
 
 ---
 
-## 🔄 User Flows
+## 🔄 Detailed User Lifecycle & Navigation Flow
 
-### 1. Practice Session Flow
-1. User lands on **Dashboard** → Hits **Start Session**.
-2. Timer begins pulsing; **Routine Checklist** becomes active.
-3. User completes "RH Exercises" → Dashboard updates progress count.
-4. User hits **Finish Session** → Entry is persisted; **Streak** is recalculated.
+The following diagram illustrates the complete interactive journey from app launch through a high-performance practice session and into progress analysis.
 
-### 2. Technique Training Flow
-1. User enters **Exercises** tab → Selects **Alankar 3**.
-2. Taps **(i)** button for detailed instructions and mastery tips.
-3. Taps **Start Practice** → App deep-links to **Metronome** with Alankar context.
-4. Metronome sets BPM to starting speed; user practices with the high-precision engine.
+```mermaid
+flowchart TD
+    %% Entry & Home
+    START((App Launch)) --> SPLASH[Splash Screen / Audio Init]
+    SPLASH --> DASH[Dashboard / Home]
+    
+    %% Dashboard Interactions
+    DASH --> TIMER[Start Session Timer]
+    DASH --> CHECK[Mark Daily Checklist]
+    
+    %% Navigation Branches
+    DASH --> TABS{Navigation Tabs}
+    TABS -- Technical --> METRO[Metronome]
+    TABS -- Theory --> SCALES[Scales Explorer]
+    TABS -- Practice --> EXER[Exercise Library]
+    TABS -- Analytics --> PROG[Progress Analytics]
+    
+    %% Exercise Sub-Flow
+    EXER --> EX_TAB{Tab Selection}
+    EX_TAB -- RH/LH --> EX_CARD[Exercise Card]
+    EX_TAB -- Alankars --> AL_CARD[Alankar Card]
+    
+    EX_CARD & AL_CARD --> INFO[Open Info Modal / Pedagogy Tips]
+    EX_CARD & AL_CARD --> PRAC_DEEP[Start Practice / Deep Link]
+    
+    %% Deep Link to Metronome
+    PRAC_DEEP -- Transfers BPM & Label --> METRO
+    
+    %% Metronome Interaction
+    METRO --> ROTARY[Rotary Dial Gesture]
+    ROTARY -- Adjust BPM --> ENGINE[Lookahead Scheduler / Audio Beat]
+    METRO --> RAMP[Enable BPM Ramp]
+    RAMP --> AUTO_UP[Automatic Speed Increase]
+    
+    %% Progress Loop
+    METRO -- Session Finished --> SAVE[Update BPM Records / Save Session]
+    SAVE --> PROG
+    
+    %% Progress Analytics
+    PROG --> HEAT[Check Practice Heatmap]
+    PROG --> BADGE[View Level Badges / Mastery]
+    
+    %% Termination
+    PROG --> DASH
+    DASH -- Finish Session --> END((Session Logged))
+
+    %% Styles
+    style START fill:#FF6B00,stroke:#333,stroke-width:2px,color:#000
+    style END fill:#FF6B00,stroke:#333,stroke-width:2px,color:#000
+    style METRO fill:#1E1E1E,stroke:#FF6B00,stroke-width:2px
+    style EXER fill:#1E1E1E,stroke:#FF6B00,stroke-width:2px
+    style DASH fill:#1E1E1E,stroke:#FF6B00,stroke-width:2px
+```
+
+### Technical Flow Breakdown
+
+1.  **Audio Initialization**: On launch, the `RootLayout` initializes the `expo-av` audio mode (background playback, silent mode override) and pre-loads the `MetronomeEngine` tick/tock assets to ensure zero-latency first-play.
+2.  **Context-Aware Practice**: When a user selects an exercise (e.g., "Alankar 3") and taps "Start Practice," the app performs a **Contextual Deep Link**. It carries the `startBpm` and `label` into the Metronome screen, displaying a "Practice Banner" at the top so the user stays focused on the specific goal.
+3.  **The Mastery Feedback Loop**: 
+    - **Capture**: Beats achieved during metronome use are compared against target BPMs.
+    - **Persistence**: Upon session completion, `practiceStore` stops the timer and `progressStore` serializes the session data to `AsyncStorage`.
+    - **Visualization**: The **Progress Heatmap** and **Mastery Progress Bars** instantly update, providing immediate visual gratification and psychological reinforcement.
+4.  **Responsive Safety**: All navigation and layout transitions are wrapped in the `Responsive Scaling Engine`, ensuring that the UI remains consistent regardless of whether the user is practicing on a compact phone or a large tablet.
 
 ---
 
