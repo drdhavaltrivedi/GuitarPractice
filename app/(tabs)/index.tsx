@@ -83,7 +83,7 @@ export default function PracticeHome() {
   const progressPercent = Math.min(100, Math.round((totalWeeklySeconds / weeklyGoalSeconds) * 100));
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         
         {/* Decorative Guitar Watermark */}

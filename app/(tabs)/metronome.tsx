@@ -41,7 +41,7 @@ export default function MetronomeScreen() {
   }, [params.bpm, params.label]);
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
       {/* Context bar */}
       {exerciseContext && (
         <View style={styles.contextBar}>

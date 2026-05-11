@@ -22,7 +22,7 @@ export default function ScalesScreen() {
   const handleKeyChange = (key: string) => { setSelectedKey(key); setSelectedPos(0); };
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
 
         {/* Header */}

@@ -39,7 +39,7 @@ export default function ExercisesScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
       {/* Header section */}
       <View style={styles.header}>
         <Text style={styles.headerSub}>PRACTICE LIBRARY</Text>
