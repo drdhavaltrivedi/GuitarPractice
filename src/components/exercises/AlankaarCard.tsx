@@ -1,5 +1,7 @@
 import { useRef, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import * as WebBrowser from 'expo-web-browser';
 import { Alankar } from '../../data/types';
 import { colors } from '../../theme/colors';
 import { typography } from '../../theme/typography';
@@ -22,8 +24,8 @@ export function AlankaarCard({ alankar, onPractice }: Props) {
     const next = !expanded;
     setExpanded(next);
     Animated.timing(heightAnim, {
-      toValue: next ? 160 : 0,
-      duration: 200,
+      toValue: next ? 200 : 0,
+      duration: 250,
       useNativeDriver: false,
     }).start();
   };
@@ -40,12 +42,19 @@ export function AlankaarCard({ alankar, onPractice }: Props) {
             {alankar.ascending.slice(0, 3).join(' · ')}…
           </Text>
         </View>
-        <Text style={styles.chevron}>{expanded ? '∧' : '∨'}</Text>
+        <Ionicons 
+          name={expanded ? 'chevron-up' : 'chevron-down'} 
+          size={20} 
+          color={colors.textMuted} 
+        />
       </TouchableOpacity>
 
       <Animated.View style={{ height: heightAnim, overflow: 'hidden' }}>
         <View style={styles.body}>
-          <Text style={styles.label}>↑ Ascending</Text>
+          <View style={styles.row}>
+            <Ionicons name="trending-up" size={14} color={colors.gold} style={{ marginRight: 6 }} />
+            <Text style={styles.label}>ASCENDING</Text>
+          </View>
           <View style={styles.groups}>
             {alankar.ascending.map((g, i) => (
               <View key={i} style={[styles.group, highlightC(g) && styles.groupAccent]}>
@@ -53,7 +62,11 @@ export function AlankaarCard({ alankar, onPractice }: Props) {
               </View>
             ))}
           </View>
-          <Text style={styles.label}>↓ Descending</Text>
+
+          <View style={[styles.row, { marginTop: spacing.sm }]}>
+            <Ionicons name="trending-down" size={14} color={colors.up} style={{ marginRight: 6 }} />
+            <Text style={styles.label}>DESCENDING</Text>
+          </View>
           <View style={styles.groups}>
             {alankar.descending.map((g, i) => (
               <View key={i} style={[styles.group, highlightC(g) && styles.groupAccent]}>
@@ -61,9 +74,23 @@ export function AlankaarCard({ alankar, onPractice }: Props) {
               </View>
             ))}
           </View>
-          <TouchableOpacity style={styles.btn} onPress={onPractice} activeOpacity={0.8}>
-            <Text style={styles.btnText}>▶ Practice  ({alankar.startBpm}→{alankar.targetBpm} BPM)</Text>
-          </TouchableOpacity>
+
+          <View style={styles.actions}>
+            {alankar.videoUrl && (
+              <TouchableOpacity 
+                style={[styles.btn, styles.demoBtn]} 
+                onPress={() => WebBrowser.openBrowserAsync(alankar.videoUrl!)} 
+                activeOpacity={0.8}
+              >
+                <Ionicons name="play-circle-outline" size={18} color={colors.gold} style={{ marginRight: 4 }} />
+                <Text style={styles.demoBtnText}>Watch Demo</Text>
+              </TouchableOpacity>
+            )}
+            <TouchableOpacity style={[styles.btn, styles.practiceBtn]} onPress={onPractice} activeOpacity={0.8}>
+              <Ionicons name="barbell" size={16} color={colors.background} style={{ marginRight: 6 }} />
+              <Text style={styles.btnText}>Practice  ({alankar.startBpm}→{alankar.targetBpm})</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </Animated.View>
     </View>
@@ -71,21 +98,26 @@ export function AlankaarCard({ alankar, onPractice }: Props) {
 }
 
 const styles = StyleSheet.create({
-  card:            { backgroundColor: colors.surface, borderRadius: 12, marginBottom: spacing.sm, borderWidth: 1, borderColor: colors.border, overflow: 'hidden' },
+  card:            { backgroundColor: colors.surfaceCard, borderRadius: 16, marginBottom: spacing.md, borderWidth: 1, borderColor: colors.border, overflow: 'hidden' },
   header:          { flexDirection: 'row', alignItems: 'center', padding: spacing.md },
-  badge:           { width: 32, height: 32, borderRadius: 16, borderWidth: 1.5, borderColor: colors.goldDim, alignItems: 'center', justifyContent: 'center', marginRight: spacing.sm },
+  badge:           { width: 36, height: 36, borderRadius: 18, backgroundColor: colors.surfaceHigh, alignItems: 'center', justifyContent: 'center', marginRight: spacing.sm, borderWidth: 1, borderColor: colors.borderLight },
   badgeText:       { color: colors.goldDim, fontSize: typography.sm, fontFamily: typography.heading },
   info:            { flex: 1 },
-  type:            { color: colors.textPrimary, fontSize: typography.md },
-  preview:         { color: colors.textSecondary, fontSize: typography.sm, fontFamily: typography.mono },
-  chevron:         { color: colors.textSecondary, fontSize: typography.lg },
+  type:            { color: colors.textPrimary, fontSize: typography.md, fontFamily: typography.heading },
+  preview:         { color: colors.textMuted, fontSize: typography.xs, fontFamily: typography.mono },
   body:            { paddingHorizontal: spacing.md, paddingBottom: spacing.md, gap: spacing.sm },
-  label:           { color: colors.textSecondary, fontSize: typography.sm, letterSpacing: 1 },
+  row:             { flexDirection: 'row', alignItems: 'center' },
+  label:           { color: colors.textMuted, fontSize: 10, letterSpacing: 1, fontWeight: 'bold' },
   groups:          { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs },
-  group:           { paddingHorizontal: spacing.sm, paddingVertical: 2, borderRadius: 6, backgroundColor: colors.surfaceHigh },
-  groupAccent:     { backgroundColor: colors.goldDim + '55' },
-  groupText:       { color: colors.textSecondary, fontSize: typography.sm, fontFamily: typography.mono },
-  groupTextAccent: { color: colors.gold },
-  btn:             { backgroundColor: colors.goldDim, borderRadius: 8, paddingVertical: spacing.sm, alignItems: 'center', marginTop: spacing.xs },
-  btnText:         { color: colors.textPrimary, fontSize: typography.sm, fontFamily: typography.heading },
+  group:           { paddingHorizontal: spacing.sm, paddingVertical: 4, borderRadius: 6, backgroundColor: colors.surfaceHigh, borderWidth: 1, borderColor: colors.border },
+  groupAccent:     { backgroundColor: colors.goldDim + '33', borderColor: colors.goldDim + '55' },
+  groupText:       { color: colors.textSecondary, fontSize: 11, fontFamily: typography.mono },
+  groupTextAccent: { color: colors.gold, fontWeight: 'bold' },
+  actions:         { flexDirection: 'row', gap: spacing.sm, marginTop: spacing.md },
+  btn:             { flex: 1, borderRadius: 10, paddingVertical: spacing.md, alignItems: 'center', flexDirection: 'row', justifyContent: 'center' },
+  practiceBtn:     { backgroundColor: colors.gold, elevation: 2 },
+  demoBtn:         { backgroundColor: colors.surfaceHigh, borderWidth: 1, borderColor: colors.goldDim },
+  btnText:         { color: colors.background, fontSize: typography.sm, fontFamily: typography.heading },
+  demoBtnText:     { color: colors.gold, fontSize: typography.xs, fontFamily: typography.heading },
 });
+

@@ -38,6 +38,8 @@ function BeatDot({ isActive, isAccent, isPlaying }: BeatDotProps) {
         styles.dot,
         isAccent && styles.accent,
         !isPlaying && styles.inactive,
+        isActive && isPlaying && styles.activeLED,
+        isActive && isPlaying && isAccent && styles.activeAccentLED,
         { transform: [{ scale }] },
       ]}
     />
@@ -66,8 +68,10 @@ export function BeatIndicator({ totalBeats, currentBeat, isPlaying }: Props) {
 }
 
 const styles = StyleSheet.create({
-  row:     { flexDirection: 'row', gap: spacing.lg, alignItems: 'center', justifyContent: 'center', marginVertical: spacing.xl },
-  dot:     { width: 22, height: 22, borderRadius: 11, backgroundColor: colors.accentBeat },
-  accent:  { width: 28, height: 28, borderRadius: 14, backgroundColor: colors.gold },
-  inactive:{ opacity: 0.25 },
+  row:     { flexDirection: 'row', gap: spacing.lg, alignItems: 'center', justifyContent: 'center', marginVertical: spacing.xl, height: 40 },
+  dot:     { width: 16, height: 16, borderRadius: 8, backgroundColor: colors.surfaceHigh, borderWidth: 1, borderColor: colors.borderLight },
+  accent:  { width: 20, height: 20, borderRadius: 10, backgroundColor: colors.surfaceHigh, borderWidth: 2, borderColor: colors.borderLight },
+  inactive:{ opacity: 0.8 },
+  activeLED:       { backgroundColor: colors.textPrimary, borderColor: colors.textPrimary, shadowColor: colors.textPrimary, shadowOpacity: 0.8, shadowRadius: 8, shadowOffset: { width: 0, height: 0 }, elevation: 4 },
+  activeAccentLED: { backgroundColor: colors.gold, borderColor: colors.gold, shadowColor: colors.gold, shadowOpacity: 1, shadowRadius: 12, shadowOffset: { width: 0, height: 0 }, elevation: 6 },
 });

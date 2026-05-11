@@ -28,6 +28,7 @@ export interface RHExercise {
   targetBpm: number;
   startBpm: number;
   note: string;       // "Each string", "Alternate strings"
+  videoUrl?: string;  // Link to a YouTube demo or GIF
 }
 
 export interface LHExercise {
@@ -35,6 +36,7 @@ export interface LHExercise {
   openNote: string;
   fingerNotes: { note: string; finger: number; fret: number }[];
   patterns: string[]; // ["AABB","CCBB",...]
+  videoUrl?: string;
 }
 
 export interface Alankar {
@@ -45,6 +47,7 @@ export interface Alankar {
   groupSize: number;      // notes per group (1,2,3,4,5)
   targetBpm: number;
   startBpm: number;
+  videoUrl?: string;
 }
 
 export interface PracticeEntry {

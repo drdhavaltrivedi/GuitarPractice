@@ -30,7 +30,7 @@ export function TapTempoButton() {
 }
 
 const styles = StyleSheet.create({
-  btn:      { paddingHorizontal: spacing.xl, paddingVertical: spacing.md, borderRadius: 12, borderWidth: 1.5, borderColor: colors.goldDim, backgroundColor: colors.surface, alignSelf: 'center' },
-  btnFlash: { backgroundColor: colors.surfaceHigh, borderColor: colors.gold },
-  text:     { color: colors.textPrimary, fontSize: typography.lg, fontFamily: typography.heading },
+  btn:      { width: 180, paddingVertical: spacing.md + 4, borderRadius: 30, borderWidth: 1, borderColor: colors.borderLight, backgroundColor: colors.surfaceHigh, alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.2, shadowRadius: 4, elevation: 2 },
+  btnFlash: { backgroundColor: colors.surfaceHigh, borderColor: colors.gold, shadowColor: colors.gold, shadowOpacity: 0.6, shadowRadius: 8 },
+  text:     { color: colors.textSecondary, fontSize: typography.md, fontWeight: '700', letterSpacing: 2, textTransform: 'uppercase' },
 });

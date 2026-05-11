@@ -33,11 +33,12 @@ export function KeySelector({ selected, onSelect }: Props) {
 }
 
 const styles = StyleSheet.create({
-  row:        { flexDirection: 'row', gap: spacing.sm, paddingHorizontal: spacing.md, paddingVertical: spacing.sm },
-  btn:        { paddingHorizontal: spacing.lg, paddingVertical: spacing.sm + 2, borderRadius: 24, borderWidth: 1.5, borderColor: colors.border, backgroundColor: colors.surface, alignItems: 'center' },
-  btnActive:  { borderColor: colors.gold, backgroundColor: colors.surfaceHigh },
-  key:        { color: colors.textSecondary, fontSize: typography.lg, fontFamily: typography.heading },
+  row:        { flexDirection: 'row', gap: spacing.md, paddingHorizontal: spacing.lg, paddingVertical: spacing.md },
+  btn:        { paddingHorizontal: spacing.xl, paddingVertical: spacing.md, borderRadius: 20, borderWidth: 1.5, borderColor: colors.border, backgroundColor: colors.surfaceCard, alignItems: 'center', minWidth: 64 },
+  btnActive:  { borderColor: colors.gold, backgroundColor: colors.surfaceHigh, elevation: 4 },
+  key:        { color: colors.textMuted, fontSize: 18, fontFamily: typography.heading, fontWeight: 'bold' },
   keyActive:  { color: colors.gold },
-  badge:      { position: 'absolute', top: -4, right: -4, backgroundColor: colors.goldDim, borderRadius: 8, paddingHorizontal: 3 },
-  badgeText:  { color: colors.textPrimary, fontSize: 8 },
+  badge:      { position: 'absolute', top: -6, right: -6, backgroundColor: colors.gold, borderRadius: 10, paddingHorizontal: 4, paddingVertical: 1, minWidth: 16, alignItems: 'center' },
+  badgeText:  { color: colors.background, fontSize: 9, fontWeight: 'bold' },
 });
+

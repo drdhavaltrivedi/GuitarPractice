@@ -1,6 +1,9 @@
 import { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
+import * as WebBrowser from 'expo-web-browser';
 import { RH_EXERCISES, LH_EXERCISES } from '../../src/data/exercises';
 import { ALANKARS } from '../../src/data/alankars';
 import { ExerciseCard } from '../../src/components/exercises/ExerciseCard';
@@ -62,6 +65,16 @@ export default function ExercisesScreen() {
                   </View>
                 ))}
               </View>
+              {LH_EXERCISES[selectedString].videoUrl && (
+                <TouchableOpacity 
+                  style={styles.demoBtn} 
+                  onPress={() => WebBrowser.openBrowserAsync(LH_EXERCISES[selectedString].videoUrl!)}
+                  activeOpacity={0.8}
+                >
+                  <Ionicons name="play-circle-outline" size={18} color={colors.gold} style={{ marginRight: 6 }} />
+                  <Text style={styles.demoBtnText}>Watch Demo Video</Text>
+                </TouchableOpacity>
+              )}
             </View>
           )}
           <View style={{ height: 40 }} />
@@ -106,4 +119,6 @@ const styles = StyleSheet.create({
   patternCell:      { paddingHorizontal:12, paddingVertical:8, backgroundColor:colors.surfaceHigh, borderRadius:8, borderWidth:1, borderColor:colors.border },
   patternText:      { color:colors.textPrimary, fontSize:14, fontFamily:typography.mono },
   scaleNote:        { color:colors.textSecondary, fontSize:13, fontFamily:typography.mono, marginBottom:12, textAlign:'center' },
+  demoBtn:          { marginTop: 16, backgroundColor: colors.surfaceHigh, borderWidth: 1, borderColor: colors.goldDim, borderRadius: 10, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
+  demoBtnText:      { color: colors.gold, fontSize: typography.sm, fontFamily: typography.heading },
 });

@@ -1,5 +1,5 @@
 export const typography = {
-  heading: 'Georgia',
+  heading: 'System', // Use system bold for modern look
   body:    'System',
   mono:    'Courier New',
 
@@ -9,5 +9,5 @@ export const typography = {
   lg:   16,
   xl:   20,
   xxl:  28,
-  hero: 64,
+  hero: 56,
 } as const;

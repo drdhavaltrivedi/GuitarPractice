@@ -32,8 +32,8 @@ export function PresetButtons({ currentBpm, onSelect }: Props) {
 
 const styles = StyleSheet.create({
   row:        { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, justifyContent: 'center', marginVertical: spacing.sm },
-  btn:        { paddingHorizontal: spacing.md, paddingVertical: spacing.sm, borderRadius: 20, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surface },
-  btnActive:  { borderColor: colors.gold, backgroundColor: colors.surfaceHigh },
-  text:       { color: colors.textSecondary, fontSize: typography.md },
-  textActive: { color: colors.gold },
+  btn:        { paddingHorizontal: spacing.lg, paddingVertical: spacing.sm + 4, borderRadius: 24, borderWidth: 1, borderColor: colors.borderLight, backgroundColor: colors.surfaceCard },
+  btnActive:  { borderColor: colors.gold, backgroundColor: colors.goldDim + '22' },
+  text:       { color: colors.textSecondary, fontSize: typography.sm, fontWeight: '600' },
+  textActive: { color: colors.gold, fontWeight: '800' },
 });

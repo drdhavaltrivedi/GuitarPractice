@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
-import { View, Text, ScrollView, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { useProgressStore } from '../../src/store/progressStore';
 import { RH_EXERCISES } from '../../src/data/exercises';
 import { ALANKARS } from '../../src/data/alankars';
 import { colors } from '../../src/theme/colors';
 import { typography } from '../../src/theme/typography';
-
-const CATEGORIES = ['Scales','Right Hand','Left Hand','Alankars'];
+import { spacing } from '../../src/theme/spacing';
 
 export default function ProgressScreen() {
   const { log, streak, bpmRecords, loaded, loadFromStorage } = useProgressStore();
@@ -29,59 +30,98 @@ export default function ProgressScreen() {
 
   return (
     <SafeAreaView style={styles.safe}>
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.statsRow}>
           <View style={styles.statCard}>
+            <Ionicons name="calendar" size={16} color={colors.goldDim} style={{ marginBottom: 4 }} />
             <Text style={styles.statValue}>{practiceDays.length}</Text>
             <Text style={styles.statLabel}>Total Days</Text>
           </View>
           <View style={styles.statCard}>
-            <Text style={styles.statValue}>🔥 {streak}</Text>
+            <MaterialCommunityIcons name="fire" size={16} color={colors.gold} style={{ marginBottom: 4 }} />
+            <Text style={styles.statValue}>{streak}</Text>
             <Text style={styles.statLabel}>Streak</Text>
           </View>
           <View style={styles.statCard}>
+            <Ionicons name="time" size={16} color={colors.goldDim} style={{ marginBottom: 4 }} />
             <Text style={styles.statValue}>{totalMinutes}m</Text>
             <Text style={styles.statLabel}>This Month</Text>
           </View>
         </View>
 
         {/* 5-week calendar heatmap */}
-        <Text style={styles.sectionHead}>Practice Calendar</Text>
-        <View style={styles.calendar}>
-          {calDays.map(({ds, practiced}) => (
-            <View key={ds} style={[styles.calDay, practiced && styles.calDayFilled]} />
-          ))}
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionHead}>PRACTICE CALENDAR</Text>
+        </View>
+        <View style={styles.card}>
+          <View style={styles.calendar}>
+            {calDays.map(({ds, practiced}) => (
+              <View 
+                key={ds} 
+                style={[styles.calDay, practiced && styles.calDayFilled]} 
+              />
+
+            ))}
+          </View>
+          <View style={styles.calLegend}>
+            <View style={styles.legendItem}>
+              <View style={styles.calDay} />
+              <Text style={styles.legendText}>Rest</Text>
+            </View>
+            <View style={styles.legendItem}>
+              <View style={styles.calDayFilled} />
+              <Text style={styles.legendText}>Practiced</Text>
+            </View>
+          </View>
         </View>
 
         {/* BPM Records */}
-        <Text style={styles.sectionHead}>BPM Records — Right Hand</Text>
-        {RH_EXERCISES.map(ex => {
-          const record = bpmRecords[ex.id];
-          return (
-            <View key={ex.id} style={styles.recordRow}>
-              <Text style={styles.recordName}>{ex.label}</Text>
-              <View style={styles.recordRight}>
-                <View style={[styles.bar, { width: record ? Math.min(180, (record / ex.targetBpm) * 180) : 0 }]} />
-                <Text style={styles.recordBpm}>{record ? `${record} / ${ex.targetBpm}` : `— / ${ex.targetBpm}`}</Text>
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionHead}>BPM RECORDS — RIGHT HAND</Text>
+        </View>
+        <View style={styles.card}>
+          {RH_EXERCISES.map((ex, index) => {
+            const record = bpmRecords[ex.id];
+            const progress = record ? Math.min(1, record / ex.targetBpm) : 0;
+            return (
+              <View key={ex.id} style={[styles.recordRow, index === RH_EXERCISES.length - 1 && { borderBottomWidth: 0 }]}>
+                <View style={styles.recordInfo}>
+                  <Text style={styles.recordName}>{ex.label}</Text>
+                  <Text style={styles.recordBpm}>{record ? `${record} / ${ex.targetBpm} BPM` : `No record yet`}</Text>
+                </View>
+                <View style={styles.barContainer}>
+                  <View style={styles.barBackground}>
+                    <View style={[styles.barFill, { width: `${progress * 100}%` }]} />
+                  </View>
+                </View>
               </View>
-            </View>
-          );
-        })}
+            );
+          })}
+        </View>
 
-        <Text style={styles.sectionHead}>BPM Records — Alankars</Text>
-        {ALANKARS.map(a => {
-          const key = `alankar_${a.number}`;
-          const record = bpmRecords[key];
-          return (
-            <View key={key} style={styles.recordRow}>
-              <Text style={styles.recordName}>{a.type}</Text>
-              <View style={styles.recordRight}>
-                <View style={[styles.bar, { width: record ? Math.min(180, (record / a.targetBpm) * 180) : 0 }]} />
-                <Text style={styles.recordBpm}>{record ? `${record} / ${a.targetBpm}` : `— / ${a.targetBpm}`}</Text>
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionHead}>BPM RECORDS — ALANKARS</Text>
+        </View>
+        <View style={styles.card}>
+          {ALANKARS.map((a, index) => {
+            const key = `alankar_${a.number}`;
+            const record = bpmRecords[key];
+            const progress = record ? Math.min(1, record / a.targetBpm) : 0;
+            return (
+              <View key={key} style={[styles.recordRow, index === ALANKARS.length - 1 && { borderBottomWidth: 0 }]}>
+                <View style={styles.recordInfo}>
+                  <Text style={styles.recordName}>{a.type}</Text>
+                  <Text style={styles.recordBpm}>{record ? `${record} / ${a.targetBpm} BPM` : `No record yet`}</Text>
+                </View>
+                <View style={styles.barContainer}>
+                  <View style={styles.barBackground}>
+                    <View style={[styles.barFill, { width: `${progress * 100}%` }]} />
+                  </View>
+                </View>
               </View>
-            </View>
-          );
-        })}
+            );
+          })}
+        </View>
 
         <View style={{ height: 40 }} />
       </ScrollView>
@@ -90,19 +130,27 @@ export default function ProgressScreen() {
 }
 
 const styles = StyleSheet.create({
-  safe:         { flex:1, backgroundColor:colors.background },
-  content:      { padding:16 },
-  statsRow:     { flexDirection:'row', gap:8, marginBottom:16 },
-  statCard:     { flex:1, backgroundColor:colors.surface, borderRadius:12, padding:12, alignItems:'center', borderWidth:1, borderColor:colors.border },
-  statValue:    { color:colors.gold, fontSize:20, fontFamily:typography.heading },
-  statLabel:    { color:colors.textSecondary, fontSize:11, marginTop:2 },
-  sectionHead:  { color:colors.textSecondary, fontSize:11, letterSpacing:1.5, marginBottom:8, marginTop:16 },
-  calendar:     { flexDirection:'row', flexWrap:'wrap', gap:4 },
-  calDay:       { width:16, height:16, borderRadius:3, backgroundColor:colors.border },
-  calDayFilled: { backgroundColor:colors.goldDim },
-  recordRow:    { flexDirection:'row', alignItems:'center', justifyContent:'space-between', paddingVertical:8, borderBottomWidth:1, borderBottomColor:colors.border },
-  recordName:   { color:colors.textPrimary, fontSize:12, flex:1 },
-  recordRight:  { flexDirection:'row', alignItems:'center', gap:8 },
-  bar:          { height:6, backgroundColor:colors.gold, borderRadius:3 },
-  recordBpm:    { color:colors.textSecondary, fontSize:11, width:70, textAlign:'right' },
+  safe:          { flex:1, backgroundColor:colors.background },
+  content:       { padding: spacing.lg },
+  statsRow:      { flexDirection:'row', gap:spacing.sm, marginBottom:spacing.lg },
+  statCard:      { flex:1, backgroundColor:colors.surfaceCard, borderRadius:20, padding:spacing.md, alignItems:'center', borderWidth:1, borderColor:colors.border, elevation: 2 },
+  statValue:     { color:colors.gold, fontSize:22, fontFamily:typography.heading, fontWeight: 'bold' },
+  statLabel:     { color:colors.textMuted, fontSize:10, marginTop:2, fontWeight: 'bold' },
+  sectionHeader: { marginBottom: spacing.sm, marginTop: spacing.md },
+  sectionHead:   { color:colors.textMuted, fontSize:10, letterSpacing:2, fontWeight: 'bold' },
+  card:          { backgroundColor: colors.surfaceCard, borderRadius: 20, padding: spacing.md, borderWidth: 1, borderColor: colors.border, marginBottom: spacing.lg },
+  calendar:      { flexDirection:'row', flexWrap:'wrap', gap:6, justifyContent: 'center' },
+  calDay:        { width:20, height:20, borderRadius:5, backgroundColor:colors.surfaceHigh, borderWidth: 1, borderColor: colors.border },
+  calDayFilled:  { backgroundColor:colors.gold, borderColor:colors.goldBright },
+  calLegend:     { flexDirection: 'row', justifyContent: 'center', gap: 16, marginTop: spacing.md },
+  legendItem:    { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  legendText:    { color: colors.textMuted, fontSize: 10, fontWeight: 'bold' },
+  recordRow:     { paddingVertical:14, borderBottomWidth:1, borderBottomColor:colors.border },
+  recordInfo:    { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 },
+  recordName:    { color:colors.textPrimary, fontSize:13, fontWeight: 'bold' },
+  recordBpm:     { color:colors.textMuted, fontSize:10, fontWeight: 'bold' },
+  barContainer:  { width: '100%' },
+  barBackground: { height: 6, backgroundColor: colors.surfaceHigh, borderRadius: 3, overflow: 'hidden' },
+  barFill:       { height: '100%', backgroundColor: colors.gold, borderRadius: 3 },
 });
+
