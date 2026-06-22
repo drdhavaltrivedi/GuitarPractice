@@ -1,0 +1,7 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/((?!_expo|assets|favicon.ico|privacy-policy.html).*)", "destination": "/index.html" }
+  ]
+}
