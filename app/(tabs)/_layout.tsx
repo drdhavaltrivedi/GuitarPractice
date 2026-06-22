@@ -40,7 +40,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="dashboard"
         options={{
           title: 'Practice',
           tabBarIcon: ({ color, size }) => <Ionicons name="play-circle" size={rs(size + 2)} color={color} />,

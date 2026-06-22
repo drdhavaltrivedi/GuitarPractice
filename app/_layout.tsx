@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform, View, useWindowDimensions } from 'react-native';
 import { Stack } from 'expo-router';
 import { Audio } from 'expo-av';
 import * as SplashScreen from 'expo-splash-screen';
@@ -11,6 +11,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [ready, setReady] = useState(false);
+  const { width: windowWidth } = useWindowDimensions();
 
   useEffect(() => {
     async function prepare() {
@@ -47,3 +48,6 @@ export default function RootLayout() {
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
 });
+
+
+
