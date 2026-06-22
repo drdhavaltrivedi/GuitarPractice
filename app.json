@@ -39,7 +39,13 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "name": "Guitar Practice Companion",
+      "shortName": "Guitar Practice",
+      "description": "Free guitar practice app with auto-ramping metronome, major scale visualizer, 8 picking drills, and daily progress tracking.",
+      "themeColor": "#FF6B00",
+      "backgroundColor": "#0A0A0A",
+      "lang": "en"
     },
     "plugins": [
       "expo-router",

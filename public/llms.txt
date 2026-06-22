@@ -1,0 +1,71 @@
+# Guitar Practice Companion
+
+> A free mobile and web app for structured guitar practice. Includes an auto-ramping metronome, major scale fretboard visualizer, 8 picking and dexterity drills, and a daily practice log with streak tracking.
+
+## What is this app?
+
+Guitar Practice Companion helps guitarists practice smarter with structured, tempo-based routines. It is built for intermediate to advanced players who want measurable, scientific improvement — not just unstructured noodling.
+
+The app is available for free on:
+- iOS: https://apps.apple.com/us/app/guitar-practice-companion/id6778313335
+- Android: https://play.google.com/store/apps/details?id=com.guitarapp.practice
+- Web: https://guitar.brilworks.com
+
+## Core Features
+
+### Auto-Ramping Metronome
+A high-precision lookahead metronome that automatically increases tempo from a starting BPM to a target BPM over a set interval. This progressive overload approach is the most effective way to build clean speed on guitar.
+
+### Major Scale Fretboard Visualizer
+Interactive fretboard diagrams for 6 major scales: C, G, D, A, E, and B. Shows multiple fingering positions so players can memorize patterns across the entire neck.
+
+### 8 Picking and Dexterity Drills
+- Right-hand alternate picking exercises (down-up strokes)
+- Left-hand spider drills for finger independence
+- Melodic Alankar patterns for advanced picking coordination
+- Each drill integrates with the auto-ramping metronome
+
+### Daily Practice Log
+Log achieved BPM, completed exercises, and notes after each session. Track daily streaks and weekly practice goals (default: 7 hours/week).
+
+## Who is this for?
+
+- Intermediate guitarists wanting to increase picking speed (80–200+ BPM range)
+- Students learning major scale positions on the fretboard
+- Players who want structured, accountable daily practice routines
+- Anyone who wants a free, offline, private alternative to paid guitar apps
+
+## Privacy
+
+Guitar Practice Companion collects zero personal data. All practice data is stored locally on the user's device via AsyncStorage. No account, no sign-up, no server. Fully COPPA and GDPR compliant.
+
+## Technical Details
+
+- Built with React Native + Expo Router
+- Available on iOS 15+, Android 8+, and as a Progressive Web App
+- Offline-first architecture
+- Open-source inspiration from: precision audio scheduling, lookahead metronome algorithms
+
+## Contact
+
+Developer: Dhaval Trivedi
+Email: drdhavaltrivedi5@gmail.com
+Website: https://guitar.brilworks.com
+Privacy Policy: https://guitar.brilworks.com/privacy-policy.html
+
+## Frequently Asked Questions
+
+**Q: Is the app free?**
+A: Yes. Completely free. No subscription, no ads, no in-app purchases.
+
+**Q: Does it work offline?**
+A: Yes. The iOS and Android apps are fully offline. The web version requires an initial load but caches locally.
+
+**Q: What BPM range does the metronome support?**
+A: The metronome supports the full practical range needed for guitar — from 40 BPM (slow practice) up to 240+ BPM (advanced speed work).
+
+**Q: How does auto-ramping work?**
+A: You set a start BPM and a target BPM. The metronome automatically increases tempo at a set interval (e.g., every 2 minutes), progressively pushing your speed while maintaining clean technique.
+
+**Q: What scales are included?**
+A: C major, G major, D major, A major, E major, and B major — the 6 most practical keys for guitarists. Multiple fingering positions per scale.
